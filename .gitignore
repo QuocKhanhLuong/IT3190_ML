@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local data
+data/*.csv
+dataset.csv
+data.csv
+
+# Generated experiment outputs
+artifacts/
+*.joblib
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
