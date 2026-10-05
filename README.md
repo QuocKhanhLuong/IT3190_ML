@@ -64,7 +64,7 @@ IT3190_ML/
 ├── notebooks/
 │   └── IT3190_student_dropout_full.ipynb
 ├── presentation/
-│   ├── IT3190_student_dropout_deck.pptx
+│   ├── SLIDE_OUTLINE.md
 │   └── speaker_script.md
 ├── reports/
 │   └── REPORT_OUTLINE.md
@@ -138,10 +138,10 @@ Training outputs are written to `artifacts/`, including:
 
 ## Report and presentation
 - Report outline: `reports/REPORT_OUTLINE.md`
-- Slide deck: `presentation/IT3190_student_dropout_deck.pptx`
+- Slide outline: `presentation/SLIDE_OUTLINE.md`
 - Speaking script: `presentation/speaker_script.md`
 
-The results slide should be filled after running the full experiment on the real dataset.
+The PowerPoint deck can be generated/exported separately from the slide outline. The results slide should be filled after running the full experiment on the real dataset.
 
 ## Reproducibility
 The project uses a fixed random seed (`42`) and a stratified 80/20 train-test split. Hyperparameter selection is performed only on the training set.
