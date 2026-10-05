@@ -5,24 +5,41 @@ Course project for **IT3190 — Introduction to Machine Learning and Data Mining
 ## Project
 Early prediction of student dropout and academic success using classical machine learning.
 
-### Main experiment settings
+The system predicts one of three labels:
+
+- `Dropout`
+- `Enrolled`
+- `Graduate`
+
+The project is designed as an **early-warning decision-support system**, not an automatic academic decision-maker.
+
+## Main experiment settings
 1. **Admission-only**: use information available at enrollment; exclude semester 1 and semester 2 academic features.
 2. **Semester-1 early warning**: include semester 1 academic features; exclude semester 2 features.
 
-### Models
+The central project question is:
+
+> How much does semester-1 academic information improve early dropout prediction compared with admission-time information only?
+
+## Models
 - DummyClassifier
 - Logistic Regression
 - Decision Tree
 - Random Forest
 
-Random Forest is tuned using training-only stratified cross-validation.
+Random Forest is the final model after training-only stratified cross-validation and hyperparameter search.
 
-### Evaluation
+## Evaluation
+Main metrics:
+
 - Macro F1
+- Dropout Recall
+
+Additional metrics:
+
 - Accuracy
 - Balanced Accuracy
 - Per-class Precision / Recall / F1
-- Dropout Recall
 - Confusion Matrix
 - Permutation Importance
 
@@ -37,13 +54,32 @@ Random Forest is tuned using training-only stratified cross-validation.
 
 On Kaggle, add the dataset as an Input. The training script automatically checks the standard Kaggle input path.
 
-## Run
+## Repository structure
 
-Install dependencies:
+```text
+IT3190_ML/
+├── app/
+│   ├── app.py
+│   └── README.md
+├── notebooks/
+│   └── IT3190_student_dropout_full.ipynb
+├── presentation/
+│   ├── IT3190_student_dropout_deck.pptx
+│   └── speaker_script.md
+├── reports/
+│   └── REPORT_OUTLINE.md
+├── train_student_dropout.py
+├── requirements.txt
+└── README.md
+```
+
+## Install
 
 ```bash
 pip install -r requirements.txt
 ```
+
+## Train
 
 Quick smoke run:
 
@@ -66,12 +102,46 @@ python train_student_dropout.py --data data/dataset.csv --output-dir artifacts
 ## Notebook
 Open:
 
-`notebooks/IT3190_student_dropout_full.ipynb`
+```text
+notebooks/IT3190_student_dropout_full.ipynb
+```
 
 The notebook contains the complete experiment workflow for local or Kaggle execution.
 
+## Streamlit demo
+Run the training pipeline first so that `artifacts/` contains the trained model and metadata.
+
+Then launch:
+
+```bash
+streamlit run app/app.py
+```
+
+Demo functions:
+
+1. Single-student prediction.
+2. Batch CSV prediction.
+3. Model report with generated artifacts.
+
 ## Outputs
-Training outputs are written to `artifacts/`, including model-comparison tables, test metrics, confusion matrices, permutation importance and the serialized best model.
+Training outputs are written to `artifacts/`, including:
+
+- `model_comparison_cv.csv`
+- `model_comparison_cv.png`
+- `feature_setting_test_results.csv`
+- `classification_report_semester1.csv`
+- `confusion_matrix_semester1.png`
+- `permutation_importance_semester1.csv`
+- `permutation_importance_semester1.png`
+- `metrics_and_metadata.json`
+- `student_dropout_semester1_rf.joblib`
+
+## Report and presentation
+- Report outline: `reports/REPORT_OUTLINE.md`
+- Slide deck: `presentation/IT3190_student_dropout_deck.pptx`
+- Speaking script: `presentation/speaker_script.md`
+
+The results slide should be filled after running the full experiment on the real dataset.
 
 ## Reproducibility
 The project uses a fixed random seed (`42`) and a stratified 80/20 train-test split. Hyperparameter selection is performed only on the training set.
