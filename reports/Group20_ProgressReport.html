@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Group20_ProgressReport - IT3190 - Hệ thống cảnh báo sớm về nguy cơ học sinh bỏ học</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 9mm 12mm 9mm 12mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 8.8pt;
+      line-height: 1.32;
+      color: #1e293b;
+      background: #ffffff;
+    }
+    .page {
+      height: 278mm;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+    .header {
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .header-left {
+      font-size: 7.8pt;
+      color: #475569;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+    .header-right {
+      font-size: 8pt;
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+    .title-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #1e3a8a;
+      border-radius: 4px;
+      padding: 6px 10px;
+      margin-bottom: 6px;
+    }
+    .report-type {
+      font-size: 8pt;
+      font-weight: 700;
+      color: #2563eb;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+    h1 {
+      font-size: 11.8pt;
+      color: #0f172a;
+      font-weight: 800;
+      margin-bottom: 4px;
+      line-height: 1.22;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1.28fr 1fr;
+      gap: 6px;
+      font-size: 8pt;
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 4px;
+    }
+    .members-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 7.9pt;
+      margin-top: 1px;
+    }
+    .members-table td {
+      padding: 1px 3px;
+      border: none;
+    }
+    h2 {
+      font-size: 9.8pt;
+      color: #1e3a8a;
+      border-bottom: 1.5px solid #dbeafe;
+      padding-bottom: 2px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    h3 {
+      font-size: 8.8pt;
+      color: #0f172a;
+      margin-top: 4px;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+    p {
+      margin-bottom: 3.5px;
+      text-align: justify;
+    }
+    ul, ol {
+      margin-left: 14px;
+      margin-bottom: 3.5px;
+    }
+    li {
+      margin-bottom: 1.8px;
+      text-align: justify;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 3.5px 0 5px 0;
+      font-size: 7.9pt;
+    }
+    table.data-table th, table.data-table td {
+      border: 1px solid #cbd5e1;
+      padding: 2.8px 5px;
+      text-align: center;
+    }
+    table.data-table th {
+      background-color: #eff6ff;
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+    table.data-table td.left, table.data-table th.left {
+      text-align: left;
+    }
+    tr.highlight {
+      background-color: #f0fdf4;
+      font-weight: 600;
+    }
+    .badge {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 7.4pt;
+      font-weight: 600;
+    }
+    .badge-blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    .badge-green {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+    .fig-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 3px;
+      text-align: center;
+      background: #ffffff;
+    }
+    .fig-box img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .fig-caption {
+      font-size: 7.4pt;
+      color: #475569;
+      margin-top: 2px;
+      font-style: italic;
+    }
+    .code-link-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 4px;
+      padding: 4px 8px;
+      margin: 3px 0 5px 0;
+      font-size: 8.2pt;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .code-link-box a {
+      color: #1d4ed8;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 7.7pt;
+      background: #f1f5f9;
+      padding: 0.5px 3px;
+      border-radius: 2px;
+      color: #0f172a;
+    }
+    .callout {
+      background: #f8fafc;
+      border-left: 3px solid #2563eb;
+      padding: 3.5px 7px;
+      font-size: 8.2pt;
+      margin: 3px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== TRANG 1 ==================== -->
+  <div class="page">
+    <div class="header">
+      <div class="header-left">ĐẠI HỌC BÁCH KHOA HÀ NỘI &bull; TRƯỜNG CÔNG NGHỆ THÔNG TIN &amp; TRUYỀN THÔNG</div>
+      <div class="header-right">IT3190 &bull; NHÓM 20 (GROUP 20) &bull; TRANG 1 / 3</div>
+    </div>
+
+    <div class="title-box">
+      <div class="report-type">BÁO CÁO TIẾN ĐỘ BÀI TẬP LỚN (PROGRESS REPORT) — NHÓM 20 (GROUP 20)</div>
+      <h1>ĐỀ TÀI: HỆ THỐNG CẢNH BÁO SỚM VỀ NGUY CƠ HỌC SINH BỎ HỌC<br>
+        <span style="font-size: 9pt; font-weight: 600; color: #475569;">(Early Warning System for Student Dropout and Academic Success Prediction)</span>
+      </h1>
+      <div class="meta-grid">
+        <div>
+          <strong>Thành viên nhóm thực hiện:</strong>
+          <table class="members-table">
+            <tr>
+              <td>1. <strong>Lương Quốc Khánh</strong> — 20235754 <em>(Nhóm trưởng)</em></td>
+              <td>4. <strong>Cao Anh</strong> — 20235636</td>
+            </tr>
+            <tr>
+              <td>2. <strong>Nguyễn Tuấn Thành</strong> — 20235833</td>
+              <td>5. <strong>Đặng Hoàng Minh</strong> — 20235777</td>
+            </tr>
+            <tr>
+              <td>3. <strong>Nguyễn Trọng Hoàng</strong> — 20235725</td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <div><strong>Mã nguồn (GitHub):</strong> <a href="https://github.com/QuocKhanhLuong/IT3190_ML" style="color:#1d4ed8;">github.com/QuocKhanhLuong/IT3190_ML</a></div>
+          <div><strong>Thuật toán chính:</strong> Logistic Regression, Decision Tree, Random Forest</div>
+          <div><strong>Ứng dụng triển khai:</strong> Hệ thống hỗ trợ quyết định trên Streamlit</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>1. Mô tả bài toán (Problem Description)</h2>
+    <p>
+      <strong>Bối cảnh và mục tiêu:</strong> Tình trạng sinh viên bỏ học giữa chừng (<em>student dropout</em>) là một thách thức lớn trong giáo dục đại học, gây lãng phí nguồn lực cho cả người học, gia đình và nhà trường. Các biện pháp hỗ trợ học thuật hoặc tài chính chỉ thực sự hiệu quả khi sinh viên có nguy cơ bỏ học được phát hiện <strong>sớm</strong>. Đề tài này xây dựng một <strong>hệ thống ứng dụng học máy cảnh báo sớm</strong> nhằm dự đoán nguy cơ bỏ học và kết quả học tập của sinh viên, đóng vai trò công cụ hỗ trợ ra quyết định (<em>decision-support system</em>) cho cố vấn học tập và nhà trường.
+    </p>
+    <p>
+      <strong>Phát biểu bài toán học máy:</strong> Bài toán được mô hình hóa dưới dạng <strong>phân loại đa lớp có giám sát (Multi-class Classification)</strong>. Từ vectơ đặc trưng đầu vào <b>x</b><sub><i>i</i></sub> của mỗi sinh viên, mô hình dự đoán nhãn trạng thái học tập <i>y<sub>i</sub></i> &isin; {<code>Dropout</code> (Bỏ học), <code>Enrolled</code> (Đang học), <code>Graduate</code> (Tốt nghiệp)} cùng phân phối xác suất thuộc từng lớp <i>P</i>(<i>y<sub>i</sub></i> = <i>c</i> | <b>x</b><sub><i>i</i></sub>).
+    </p>
+    <div class="callout">
+      <strong>Câu hỏi nghiên cứu trọng tâm (nhất quán với đề xuất):</strong> <em>Kết quả học tập học kỳ 1 ảnh hưởng như thế nào đến độ chính xác dự đoán và khả năng phát hiện sớm sinh viên bỏ học so với việc chỉ sử dụng thông tin tại thời điểm nhập học?</em>
+    </div>
+    <p>Để trả lời câu hỏi trên và tránh hiện tượng rò rỉ dữ liệu tương lai (<em>data leakage</em>), nhóm thiết kế <strong>02 kịch bản thí nghiệm</strong> rõ ràng:</p>
+    <ul>
+      <li><strong>Kịch bản 1 — Admission-only (Dự đoán tại thời điểm nhập học — 24 đặc trưng):</strong> Chỉ sử dụng thông tin nhân khẩu học, kinh tế - xã hội, học vấn gia đình và điểm xét tuyển đầu vào; loại bỏ toàn bộ các biến kết quả học tập học kỳ 1 và học kỳ 2.</li>
+      <li><strong>Kịch bản 2 — Semester-1 Early Warning (Cảnh báo sớm sau học kỳ 1 — 30 đặc trưng):</strong> Kết hợp 24 đặc trưng đầu vào với 06 đặc trưng kết quả học tập học kỳ 1. Toàn bộ 06 đặc trưng của học kỳ 2 vẫn bị loại bỏ vì ở thời điểm cuối năm nhất thì việc can thiệp sớm đã trở nên muộn.</li>
+    </ul>
+
+    <h2>2. Các tập dữ liệu và quy trình tiền xử lý (Dataset &amp; Preprocessing)</h2>
+    <p>
+      <strong>Nguồn dữ liệu:</strong> Nghiên cứu sử dụng bộ dữ liệu chuẩn <strong>"Predict Students' Dropout and Academic Success"</strong> từ kho dữ liệu <em>UCI Machine Learning Repository (ID: 697)</em> / bản sao trên Kaggle (<code>mattop/predict-students-dropout-and-academic-success</code>), thu thập từ các ngành đào tạo đại học khác nhau của một cơ sở giáo dục đại học tại Bồ Đào Nha.
+    </p>
+
+    <div class="two-col">
+      <div>
+        <h3>2.1. Thống kê tổng quan &amp; Phân bố nhãn</h3>
+        <ul>
+          <li><strong>Quy mô:</strong> <strong>4.424 bản ghi</strong> sinh viên, <strong>36 thuộc tính đầu vào</strong> và 01 cột nhãn mục tiêu (<code>Target</code>).</li>
+          <li><strong>Chất lượng dữ liệu:</strong> Không có giá trị khuyết thiếu (<code>missing = 0</code>), không có bản ghi trùng lặp (<code>duplicates = 0</code>).</li>
+          <li><strong>Đặc điểm phân bố lớp:</strong> Dữ liệu <strong>mất cân bằng lớp (class imbalance)</strong> rõ rệt — lớp <code>Graduate</code> chiếm 49,93%, trong khi lớp <code>Enrolled</code> chỉ chiếm 17,95%. Do đó, bên cạnh <em>Accuracy</em>, nhóm chọn <strong>Macro-F1</strong> và <strong>Dropout Recall</strong> làm 2 độ đo đánh giá chính.</li>
+        </ul>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="left">Nhãn (Target)</th>
+              <th>Ý nghĩa</th>
+              <th>Số lượng</th>
+              <th>Tỷ lệ (%)</th>
+              <th>Train (80%)</th>
+              <th>Test (20%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left"><strong>Graduate</strong></td>
+              <td>Tốt nghiệp</td>
+              <td>2.209</td>
+              <td>49,93%</td>
+              <td>1.767</td>
+              <td>442</td>
+            </tr>
+            <tr>
+              <td class="left"><strong>Dropout</strong></td>
+              <td>Bỏ học</td>
+              <td>1.421</td>
+              <td>32,12%</td>
+              <td>1.137</td>
+              <td>284</td>
+            </tr>
+            <tr>
+              <td class="left"><strong>Enrolled</strong></td>
+              <td>Đang học</td>
+              <td>794</td>
+              <td>17,95%</td>
+              <td>635</td>
+              <td>159</td>
+            </tr>
+            <tr class="highlight">
+              <td class="left"><strong>Tổng cộng</strong></td>
+              <td>—</td>
+              <td><strong>4.424</strong></td>
+              <td><strong>100,0%</strong></td>
+              <td><strong>3.539</strong></td>
+              <td><strong>885</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3>2.2. Các nhóm đặc trưng &amp; Tiền xử lý (Pipeline)</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="left">Nhóm đặc trưng</th>
+              <th>Số biến</th>
+              <th class="left">Ví dụ thuộc tính tiêu biểu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left">Nhân khẩu &amp; Xét tuyển</td>
+              <td>10</td>
+              <td class="left"><code>Age at enrollment</code>, <code>Gender</code>, <code>Course</code>, <code>Admission grade</code>, <code>Application mode</code></td>
+            </tr>
+            <tr>
+              <td class="left">Kinh tế - Xã hội</td>
+              <td>11</td>
+              <td class="left"><code>Tuition fees up to date</code>, <code>Debtor</code>, <code>Scholarship holder</code>, <code>Parent's occupation</code></td>
+            </tr>
+            <tr>
+              <td class="left">Kinh tế vĩ mô</td>
+              <td>3</td>
+              <td class="left"><code>Unemployment rate</code>, <code>Inflation rate</code>, <code>GDP</code></td>
+            </tr>
+            <tr>
+              <td class="left">Học tập Học kỳ 1</td>
+              <td>6</td>
+              <td class="left"><code>Curricular units 1st sem (enrolled / evaluations / approved / grade / credited)</code></td>
+            </tr>
+            <tr>
+              <td class="left">Học tập Học kỳ 2 <em>(Bỏ)</em></td>
+              <td>6</td>
+              <td class="left"><code>Curricular units 2nd sem (...)</code> — <em>loại bỏ chống rò rỉ</em></td>
+            </tr>
+          </tbody>
+        </table>
+        <ul>
+          <li><strong>Biến phân loại (Categorical):</strong> Các cột mã số định danh (<code>Course</code>, <code>Application mode</code>, <code>Occupation</code>...) được điền khuyết bằng <code>SimpleImputer("most_frequent")</code> và mã hóa <code>OneHotEncoder(handle_unknown="ignore")</code>.</li>
+          <li><strong>Biến số (Numerical):</strong> Điền khuyết <code>SimpleImputer("median")</code> và chuẩn hóa <code>StandardScaler()</code>.</li>
+          <li><strong>Đóng gói Pipeline:</strong> Kết hợp trong <code>ColumnTransformer</code> &amp; <code>Pipeline</code>, chỉ <code>fit</code> trên tập Train.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TRANG 2 ==================== -->
+  <div class="page page-break">
+    <div class="header">
+      <div class="header-left">BÁO CÁO TIẾN ĐỘ BTL (GROUP 20) — HỆ THỐNG CẢNH BÁO SỚM NGUY CƠ HỌC SINH BỎ HỌC</div>
+      <div class="header-right">IT3190 &bull; NHÓM 20 &bull; TRANG 2 / 3</div>
+    </div>
+
+    <h2>3. Kết quả thí nghiệm hiện thời và Liên kết mã nguồn (Current Experimental Results)</h2>
+
+    <div class="code-link-box">
+      <div>
+        <strong>Liên kết mã nguồn (GitHub Repository):</strong>
+        <a href="https://github.com/QuocKhanhLuong/IT3190_ML">https://github.com/QuocKhanhLuong/IT3190_ML</a>
+      </div>
+      <div>
+        <span class="badge badge-blue">train_student_dropout.py</span>
+        <span class="badge badge-blue">notebooks/IT3190_student_dropout_full.ipynb</span>
+        <span class="badge badge-green">app/app.py (Streamlit)</span>
+      </div>
+    </div>
+
+    <h3>3.1. Thiết lập thực nghiệm và So sánh các mô hình cơ sở (5-Fold Stratified Cross-Validation)</h3>
+    <p>
+      Tập dữ liệu được chia theo tỷ lệ <strong>80% Train (3.539 mẫu)</strong> và <strong>20% Hold-out Test (885 mẫu)</strong> có phân tầng (<code>stratify=y</code>, <code>random_state=42</code>). Trên tập Train, nhóm thực hiện đánh giá chéo phân tầng 5-fold (<em>5-Fold Stratified CV</em>) với 4 thuật toán: <strong>DummyClassifier</strong> (baseline dự đoán lớp đa số), <strong>Logistic Regression</strong> (<code>class_weight="balanced"</code>), <strong>Decision Tree</strong> (<code>max_depth=10, class_weight="balanced"</code>) và <strong>Random Forest</strong> (<code>n_estimators=300, class_weight="balanced_subsample"</code>).
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="left">Kịch bản đặc trưng (Feature Setting)</th>
+          <th class="left">Mô hình phân loại (Classifier)</th>
+          <th>CV Accuracy (Mean &plusmn; Std)</th>
+          <th>CV Balanced Acc (Mean &plusmn; Std)</th>
+          <th>CV Macro-F1 (Mean &plusmn; Std)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="left" rowspan="4"><strong>Admission-only</strong><br><em>(24 đặc trưng lúc nhập học)</em></td>
+          <td class="left">Logistic Regression</td>
+          <td>0,6002 &plusmn; 0,0181</td>
+          <td>0,5772 &plusmn; 0,0126</td>
+          <td><strong>0,5666 &plusmn; 0,0143</strong></td>
+        </tr>
+        <tr>
+          <td class="left">Random Forest (Untuned)</td>
+          <td><strong>0,6519 &plusmn; 0,0074</strong></td>
+          <td>0,5301 &plusmn; 0,0101</td>
+          <td>0,5189 &plusmn; 0,0163</td>
+        </tr>
+        <tr>
+          <td class="left">Decision Tree</td>
+          <td>0,5230 &plusmn; 0,0225</td>
+          <td>0,5316 &plusmn; 0,0255</td>
+          <td>0,5068 &plusmn; 0,0226</td>
+        </tr>
+        <tr>
+          <td class="left">DummyClassifier (Most Frequent)</td>
+          <td>0,4993 &plusmn; 0,0006</td>
+          <td>0,3333 &plusmn; 0,0000</td>
+          <td>0,2220 &plusmn; 0,0002</td>
+        </tr>
+        <tr>
+          <td class="left" rowspan="4"><strong>Semester-1 Early Warning</strong><br><em>(30 đặc trưng: Nhập học + HK1)</em></td>
+          <td class="left">Logistic Regression</td>
+          <td>0,7219 &plusmn; 0,0213</td>
+          <td>0,6839 &plusmn; 0,0185</td>
+          <td>0,6783 &plusmn; 0,0199</td>
+        </tr>
+        <tr class="highlight">
+          <td class="left">Random Forest (Tuned — <code>RandomizedSearchCV</code>)</td>
+          <td><strong>0,7265 &plusmn; 0,0194</strong></td>
+          <td><strong>0,6918 &plusmn; 0,0218</strong></td>
+          <td><strong>0,6840 &plusmn; 0,0229</strong></td>
+        </tr>
+        <tr>
+          <td class="left">Random Forest (Untuned, <code>min_samples_leaf=1</code>)</td>
+          <td>0,7403 &plusmn; 0,0120</td>
+          <td>0,6266 &plusmn; 0,0146</td>
+          <td>0,6281 &plusmn; 0,0187</td>
+        </tr>
+        <tr>
+          <td class="left">Decision Tree</td>
+          <td>0,6502 &plusmn; 0,0182</td>
+          <td>0,6218 &plusmn; 0,0229</td>
+          <td>0,6128 &plusmn; 0,0198</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3.2. Tinh chỉnh siêu tham số và Đánh giá ảnh hưởng của kết quả học tập Học kỳ 1 trên tập Test</h3>
+    <p>
+      Nhận thấy Random Forest mặc định (<code>min_samples_leaf=1</code>) có Accuracy cao nhất (74,03%) nhưng bị thiên lệch về lớp đa số khiến Macro-F1 thấp hơn Logistic Regression, nhóm đã thực hiện <strong>tinh chỉnh siêu tham số bằng <code>RandomizedSearchCV</code></strong> (24 cấu hình, 5-fold CV, tối ưu theo <code>f1_macro</code>) hoàn toàn trên tập Train. Cấu hình tối ưu tìm được là: <code>n_estimators=700, min_samples_leaf=4, min_samples_split=2, max_features="sqrt", max_depth=None, class_weight="balanced"</code>, giúp nâng CV Macro-F1 của Random Forest lên <strong>0,6840</strong> (cao nhất trong mọi mô hình).
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="left">Kịch bản (Mô hình Random Forest đã tinh chỉnh)</th>
+          <th>Best CV Macro-F1</th>
+          <th>Test Accuracy</th>
+          <th>Balanced Acc</th>
+          <th>Macro Precision</th>
+          <th>Macro Recall</th>
+          <th>Test Macro-F1</th>
+          <th>Dropout Recall</th>
+          <th>Dropout F1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="left"><strong>1. Admission-only</strong> (Chỉ thông tin nhập học)</td>
+          <td>0,5825</td>
+          <td>60,11%</td>
+          <td>55,25%</td>
+          <td>0,5492</td>
+          <td>0,5525</td>
+          <td>0,5501</td>
+          <td>61,62%</td>
+          <td>0,6140</td>
+        </tr>
+        <tr class="highlight">
+          <td class="left"><strong>2. Semester-1 Early Warning</strong> (+ Học kỳ 1)</td>
+          <td><strong>0,6840</strong></td>
+          <td><strong>71,53%</strong></td>
+          <td><strong>66,16%</strong></td>
+          <td><strong>0,6610</strong></td>
+          <td><strong>0,6616</strong></td>
+          <td><strong>0,6602</strong></td>
+          <td><strong>69,01%</strong></td>
+          <td><strong>0,7166</strong></td>
+        </tr>
+        <tr>
+          <td class="left"><strong>Mức cải thiện tuyệt đối (&Delta;)</strong></td>
+          <td><strong>+0,1015</strong></td>
+          <td><strong>+11,42%</strong></td>
+          <td><strong>+10,91%</strong></td>
+          <td><strong>+0,1118</strong></td>
+          <td><strong>+0,1091</strong></td>
+          <td><strong>+0,1101</strong></td>
+          <td><strong>+7,39%</strong></td>
+          <td><strong>+0,1026</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="two-col" style="align-items: center;">
+      <div>
+        <h3>3.3. Kết quả chi tiết theo từng lớp trên tập Test (885 mẫu)</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="left">Lớp (Class)</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+              <th>Support</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left"><strong>Dropout (Bỏ học)</strong></td>
+              <td>0,7452</td>
+              <td>0,6901</td>
+              <td>0,7166</td>
+              <td>284</td>
+            </tr>
+            <tr>
+              <td class="left"><strong>Enrolled (Đang học)</strong></td>
+              <td>0,4153</td>
+              <td>0,4780</td>
+              <td>0,4444</td>
+              <td>159</td>
+            </tr>
+            <tr>
+              <td class="left"><strong>Graduate (Tốt nghiệp)</strong></td>
+              <td>0,8223</td>
+              <td>0,8167</td>
+              <td>0,8195</td>
+              <td>442</td>
+            </tr>
+            <tr class="highlight">
+              <td class="left"><strong>Macro Average</strong></td>
+              <td><strong>0,6610</strong></td>
+              <td><strong>0,6616</strong></td>
+              <td><strong>0,6602</strong></td>
+              <td><strong>885</strong></td>
+            </tr>
+            <tr>
+              <td class="left"><strong>Weighted Average</strong></td>
+              <td>0,7245</td>
+              <td>0,7153</td>
+              <td>0,7191</td>
+              <td>885</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 8.1pt;">
+          <strong>Nhận xét:</strong> Việc bổ sung kết quả học tập học kỳ 1 giúp tăng mạnh độ chính xác tổng thể từ <strong>60,11% lên 71,53% (+11,42%)</strong>, tăng Macro-F1 từ <strong>0,5501 lên 0,6602</strong> và tăng F1 của lớp <code>Dropout</code> từ <strong>0,6140 lên 0,7166</strong>. Lớp <code>Graduate</code> và <code>Dropout</code> đạt hiệu năng tốt; riêng lớp <code>Enrolled</code> là trạng thái chuyển tiếp nên dễ bị nhầm lẫn hơn.
+        </p>
+      </div>
+      <div class="fig-box">
+        <img src="../artifacts/confusion_matrix_semester1.png" style="max-height: 158px;" alt="Confusion Matrix">
+        <div class="fig-caption">Hình 1: Ma trận nhầm lẫn trên tập Test (Semester-1 Random Forest).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TRANG 3 ==================== -->
+  <div class="page page-break">
+    <div class="header">
+      <div class="header-left">BÁO CÁO TIẾN ĐỘ BTL (GROUP 20) — HỆ THỐNG CẢNH BÁO SỚM NGUY CƠ HỌC SINH BỎ HỌC</div>
+      <div class="header-right">IT3190 &bull; NHÓM 20 &bull; TRANG 3 / 3</div>
+    </div>
+
+    <h3>3.4. Phân tích mức độ quan trọng của đặc trưng (Permutation Feature Importance) và Ứng dụng Streamlit</h3>
+    <div class="two-col" style="align-items: center; margin-bottom: 4px;">
+      <div class="fig-box">
+        <img src="../artifacts/model_comparison_cv.png" style="max-height: 155px;" alt="Model Comparison CV">
+        <div class="fig-caption">Hình 2: So sánh 5-fold CV Macro-F1 giữa các mô hình cơ sở ở 2 kịch bản.</div>
+      </div>
+      <div class="fig-box">
+        <img src="../artifacts/permutation_importance_semester1.png" style="max-height: 155px;" alt="Permutation Importance">
+        <div class="fig-caption">Hình 3: Top 20 đặc trưng quan trọng nhất theo Permutation Importance.</div>
+      </div>
+    </div>
+
+    <p>
+      Nhóm sử dụng phương pháp <strong>Permutation Importance</strong> (lặp 10 lần trên tập Test theo độ giảm <code>f1_macro</code>) để giải thích mô hình trên các biến gốc trước khi mã hóa One-Hot. Kết quả cho thấy <strong>5 đặc trưng có ảnh hưởng lớn nhất</strong> gồm:
+      (1) <code>Curricular units 1st sem (approved)</code> — Số học phần tích lũy đạt ở HK1 (&Delta;Macro-F1 = 0,0765);
+      (2) <code>Tuition fees up to date</code> — Tình trạng đóng học phí đúng hạn (0,0485);
+      (3) <code>Curricular units 1st sem (grade)</code> — Điểm trung bình HK1 (0,0243);
+      (4) <code>Curricular units 1st sem (evaluations)</code> — Số lần dự thi HK1 (0,0164); và
+      (5) <code>Course</code> — Ngành theo học (0,0086).
+      Kết quả này hoàn toàn phù hợp với thực tiễn giáo dục: <strong>tiến độ tích lũy tín chỉ trong học kỳ đầu tiên</strong> và <strong>áp lực tài chính (nợ học phí)</strong> là hai tín hiệu cảnh báo sớm mạnh mẽ nhất về nguy cơ bỏ học.
+    </p>
+    <p>
+      <strong>Hệ thống giao diện Streamlit (<code>app/app.py</code>):</strong> Nhóm đã xây dựng hoàn chỉnh ứng dụng web trên Streamlit kết nối trực tiếp với pipeline đã huấn luyện (<code>student_dropout_semester1_rf.joblib</code>), bao gồm 3 phân hệ:
+      <strong>(1) Single-student prediction</strong> (nhập thông tin 1 sinh viên và trực quan hóa xác suất 3 lớp),
+      <strong>(2) Batch CSV prediction</strong> (tải lên danh sách sinh viên file CSV và xuất file dự đoán hàng loạt), và
+      <strong>(3) Model report</strong> (hiển thị bảng chỉ số đánh giá và các biểu đồ phân tích của mô hình).
+    </p>
+
+    <h2>4. Các bước tiếp theo cho báo cáo cuối kì (Next Steps for Final Report)</h2>
+    <p>
+      Tính đến thời điểm hiện tại, nhóm đã hoàn thành khoảng <strong>75% khối lượng công việc</strong> (xây dựng toàn bộ pipeline tiền xử lý, thực nghiệm 2 kịch bản Admission-only và Semester-1, so sánh 4 thuật toán, tinh chỉnh Random Forest và dựng bản mẫu Streamlit). Trong giai đoạn tiếp theo hướng tới báo cáo cuối kỳ, nhóm sẽ tập trung vào <strong>04 nhiệm vụ trọng tâm</strong> sau:
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 6%;">STT</th>
+          <th class="left" style="width: 28%;">Hạng mục công việc</th>
+          <th class="left" style="width: 48%;">Nội dung triển khai chi tiết</th>
+          <th style="width: 18%;">Phụ trách &amp; Thời hạn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td class="left"><strong>Tạo đặc trưng mới (Feature Engineering) &amp; Xử lý mất cân bằng lớp</strong></td>
+          <td class="left">
+            Tạo thêm các đặc trưng tỷ lệ mang ý nghĩa học vụ tại Học kỳ 1 như: <em>Tỷ lệ qua môn HK1</em> (<code>approved / enrolled</code>), <em>Tỷ lệ tham gia thi HK1</em> (<code>evaluations / enrolled</code>). Thử nghiệm kỹ thuật lấy mẫu quá mức (SMOTE) và tinh chỉnh trọng số lớp để cải thiện chất lượng dự đoán cho lớp thiểu số <code>Enrolled</code> (hiện đạt F1 = 0,4444).
+          </td>
+          <td>Quốc Khánh,<br>Tuấn Thành<br><em>(Tuần 1 — T11)</em></td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td class="left"><strong>So sánh chuyên sâu &amp; Tinh chỉnh toàn diện các thuật toán</strong></td>
+          <td class="left">
+            Tinh chỉnh siêu tham số (Hyperparameter Tuning) cho cả <strong>Logistic Regression</strong> (hệ số điều chuẩn <i>C</i>, chuẩn <i>L</i><sub>1</sub>/<i>L</i><sub>2</sub>) và <strong>Decision Tree</strong> (<code>max_depth</code>, <code>min_samples_leaf</code>, <code>ccp_alpha</code> pruning) trên cùng giao thức CV để có bảng đối sánh công bằng nhất với Random Forest ở cả 2 kịch bản.
+          </td>
+          <td>Trọng Hoàng,<br>Cao Anh<br><em>(Tuần 2 — T12)</em></td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td class="left"><strong>Tối ưu ngưỡng cảnh báo (Threshold Tuning) &amp; Phân tích lỗi (Error Analysis)</strong></td>
+          <td class="left">
+            Phân tích đường cong Precision-Recall của lớp <code>Dropout</code> và điều chỉnh ngưỡng xác suất cảnh báo (thay vì ngưỡng argmax mặc định) nhằm nâng <strong>Dropout Recall lên &ge; 75–80%</strong>, giảm thiểu số sinh viên có nguy cơ bỏ học bị bỏ sót (<em>False Negatives</em>).
+          </td>
+          <td>Quốc Khánh,<br>Hoàng Minh<br><em>(Tuần 2 — T12)</em></td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td class="left"><strong>Nâng cấp giao diện Streamlit &amp; Hoàn thiện báo cáo, slide cuối kỳ</strong></td>
+          <td class="left">
+            Bổ sung tính năng lọc danh sách sinh viên theo mức độ rủi ro (<em>Cao / Trung bình / Thấp</em>) trên Streamlit; hoàn thiện báo cáo cuối kỳ, bộ slide thuyết trình 12 phút và kịch bản demo trực tiếp hệ thống.
+          </td>
+          <td>Cả nhóm<br><em>(Tuần 3 — T12)</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout" style="margin-top: 4px;">
+      <strong>Cam kết tính nhất quán:</strong> Toàn bộ nội dung nghiên cứu (bài toán phân loại 3 lớp <code>Dropout / Enrolled / Graduate</code>, bộ dữ liệu UCI 4.424 sinh viên, so sánh Logistic Regression / Decision Tree / Random Forest, đánh giá tác động của kết quả học tập học kỳ 1 và ứng dụng Streamlit) được giữ <strong>nhất quán tuyệt đối</strong> giữa Đề xuất đề tài, Báo cáo tiến độ và Báo cáo cuối kỳ.
+    </div>
+  </div>
+
+</body>
+</html>
